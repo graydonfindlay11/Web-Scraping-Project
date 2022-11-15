@@ -25,7 +25,7 @@ print()
 ##
 ##
 ##
-##
+##my solution
 for row in table_rows[1:6]:
     td = row.findAll("td")
     rank = (td[0].text)

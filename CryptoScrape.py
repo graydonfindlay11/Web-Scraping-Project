@@ -66,7 +66,7 @@ myCellPhone = "+19037055343"
 
 
 
-'''
+
 for row in stock_rows[1:2]:
     td = row.findAll("td")
     bitcoin = float(td[4].text.replace(",",""))
@@ -86,7 +86,6 @@ for row in stock_rows[2:3]:
         print("-------------------------------------")
    
 
-'''
 
 
 
