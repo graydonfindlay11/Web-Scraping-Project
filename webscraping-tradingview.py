@@ -12,12 +12,19 @@ from bs4 import BeautifulSoup
 ##  > sudo "./Install Certificates.command"
 
 
-url = 'https://www.tradingview.com/markets/stocks-usa/market-movers-gainers/'
+#url = 'https://www.tradingview.com/markets/stocks-usa/market-movers-gainers/'
+url = 'https://www.webull.com/quote/us/gainers'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
 
-		
+req = Request(url, headers=headers)
 
+webpage = urlopen(req).read()
 
+soup = BeautifulSoup(webpage, 'html.parser')
+
+title = soup.title
+
+print(title.text)
 
 
 
@@ -33,3 +40,73 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML
 #Limit = find with limit of 1
 #keyword: allText = Obj.find(id="title",class="text")
 
+
+
+tablecells = soup.findAll("div", attrs={"class":"table-cell"})
+
+print(tablecells[0].text)
+print()
+
+print("Company:    ",tablecells[1].text)
+print("% Change:   ",tablecells[3].text)
+print("High:       ",tablecells[5].text)
+print("Low:        ",tablecells[6].text)
+print("Difference: ", float(tablecells[5].text) - float(tablecells[6].text))
+print()
+
+print("Company:    ",tablecells[12].text)
+print("% Change:   ",tablecells[14].text)
+print("High:       ",tablecells[16].text)
+print("Low:        ",tablecells[17].text)
+print("Difference: ", float(tablecells[16].text) - float(tablecells[17].text))
+print()
+
+
+print("Company:    ",tablecells[23].text)
+print("% Change:   ",tablecells[25].text)
+print("High:       ",tablecells[27].text)
+print("Low:        ",tablecells[28].text)
+print("Difference: ", float(tablecells[27].text) - float(tablecells[28].text))
+print()
+
+
+
+name = 1
+high = 5
+low = 6
+
+count = 1
+
+while count <= 5:
+    calc = ((float(tablecells[high].text) - float(tablecells[low].text)) / float(tablecells[low].text)) * 100
+    print(f' Name: {tablecells[name].text} || High: {tablecells[high].text} || Low: {tablecells[low].text}')
+    print(calc)
+    print()
+    name += 11
+    high += 11
+    low += 11
+    count +=1
+
+
+# ALTERNATE WAY TO DO IT
+
+
+
+counter = 1
+for x in range(5):
+    name = tablecells[counter].text
+    change = tablecells[counter+2].text
+    high = float(tablecells[counter+4].text)
+    low = float(tablecells[counter+5].text)
+
+    calc_change = round(((high - low) / low) * 100, 2)
+    
+    print()
+    print(name)
+    print(f" Change%: {change}")
+    print(f" High: {high}")
+    print(f" Low: {low}")
+    print(f"Calculated Change: {calc_change}%")
+    print()
+    print()
+    counter += 11
